@@ -13,6 +13,7 @@ export default function EmployerList() {
 
   return (
     <div>
+        Employers List
       <Table celled>
         <Table.Header>
           <Table.Row>
@@ -31,7 +32,7 @@ export default function EmployerList() {
               <Table.Cell>{employer.webAddress}</Table.Cell>
               <Table.Cell>{employer.phoneNumber}</Table.Cell>
               <Table.Cell>{employer.phoneNumber}</Table.Cell>
-              <Table.Cell>{employer.activated? "Active":"Not active"}</Table.Cell>
+              <Table.Cell>{employer.activated? <Icon color='green' name='checkmark' />: <Icon color='red' name='close' />}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
