@@ -5,7 +5,6 @@ import EmployerList from "../pages/EmployerList";
 import JobAdvertisement from "../pages/JobAdvertisement";
 import Candidate from "../pages/Candidate";
 import Employee from "../pages/Employee";
-import JobTitle from "../pages/JobTitle";
 
 export default function Dashboard() {
   return (
@@ -20,7 +19,6 @@ export default function Dashboard() {
             <JobAdvertisement></JobAdvertisement>
             <Candidate></Candidate>
             <Employee></Employee>
-            <JobTitle></JobTitle>
           </Grid.Column>
         </Grid.Row>
       </Grid>
