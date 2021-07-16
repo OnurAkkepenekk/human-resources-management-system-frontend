@@ -1,0 +1,7 @@
+.filter{
+    display: flex !important;
+    justify-content: center;
+}
+.hrms-font{
+    font-family: 'Nerko One', cursive;
+}
