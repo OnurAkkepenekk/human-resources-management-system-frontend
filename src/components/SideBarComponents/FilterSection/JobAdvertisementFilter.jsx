@@ -44,6 +44,9 @@ export default function JobAdvertisementFilter() {
 
       <Dropdown text="Work Types" search selection>
         <Dropdown.Menu>
+          {workTimeTypes.map((workTimeType) => (
+            <Dropdown.Item key={workTimeType.workTimeTypeId}>
+              {workTimeType.workTimeTypeName}
           {workTypes.map((workType) => (
             <Dropdown.Item key={workType.work_type_id}>
               {workType.workTypeName}
