@@ -14,7 +14,7 @@ export default function City() {
       <Dropdown text="Cities" search selection>
         <Dropdown.Menu>
           {cities.map((city) => (
-            <Dropdown.Item key={city.id}>{city.city}</Dropdown.Item>
+            <Dropdown.Item key={city.id}>{city.cityName}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
