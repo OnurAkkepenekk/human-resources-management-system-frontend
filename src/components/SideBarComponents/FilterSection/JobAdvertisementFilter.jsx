@@ -30,26 +30,25 @@ export default function JobAdvertisementFilter() {
 
   return (
     <div>
-      
-        <Dropdown text="Work Types" search selection>
-          <Dropdown.Menu>
-            {workTypes.map((workType) => (
-              <Dropdown.Item key={workType.work_type_id}>
-                {workType.workTypeName}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
+      <Dropdown text="Work Types" search selection>
+        <Dropdown.Menu>
+          {workTypes.map((workType) => (
+            <Dropdown.Item key={workType.work_type_id}>
+              {workType.workTypeName}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
 
-        <Dropdown text="Work Time Types" search selection>
-          <Dropdown.Menu>
-            {workTimeTypes.map((workTimeType) => (
-              <Dropdown.Item key={workTimeType.workTimeTypeId}>
-                {workTimeType.workTimeTypeName}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
+      <Dropdown text="Work Time Types" search selection>
+        <Dropdown.Menu>
+          {workTimeTypes.map((workTimeType) => (
+            <Dropdown.Item key={workTimeType.workTimeTypeId}>
+              {workTimeType.workTimeTypeName}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 }
