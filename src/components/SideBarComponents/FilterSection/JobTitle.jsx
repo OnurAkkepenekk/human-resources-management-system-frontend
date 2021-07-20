@@ -16,7 +16,7 @@ export default function Job() {
       <Dropdown text="Job Titles" search selection>
         <Dropdown.Menu>
           {jobs.map((job) => (
-            <Dropdown.Item key={job.id}>{job.job_title}</Dropdown.Item>
+            <Dropdown.Item key={job.id}>{job.jobTitle}</Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>
