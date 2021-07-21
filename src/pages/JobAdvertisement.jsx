@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import JobAdvertisementService from "../services/jobAdvertisement";
 import { Table } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
 
@@ -25,6 +26,7 @@ export default function JobAdvertisement() {
             <Table.HeaderCell>Maximum Salary</Table.HeaderCell>
             <Table.HeaderCell>Open Position Count</Table.HeaderCell>
             <Table.HeaderCell>Last Apply Date</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -37,6 +39,7 @@ export default function JobAdvertisement() {
               <Table.Cell>{jobAdvert.maxSalary}</Table.Cell>
               <Table.Cell>{jobAdvert.openPositionCount}</Table.Cell>
               <Table.Cell>{jobAdvert.lastApplyDate}</Table.Cell>
+              <Table.Cell><Link to={`/jobadvertisements/${jobAdvert.id}`}>Review</Link></Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
