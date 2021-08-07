@@ -3,7 +3,7 @@ import { Container, Menu } from "semantic-ui-react";
 import SignedOut from "./SignedOut";
 import SignIn from "./SignIn";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import "./csses/filter.css";
 export default function Navi() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -20,7 +20,7 @@ export default function Navi() {
       <Menu inverted fixed="top">
         <Container>
           <Menu.Item className="hrms-font" name="HRMS" />
-          <Menu.Item name="Main Page" />
+          <Menu.Item name="Main Page" as={NavLink} to="/"></Menu.Item>
           <Menu.Menu position="right">
             {isAuthenticated ? (
               <SignIn signOut={handleSignOut} />
