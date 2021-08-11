@@ -1,16 +1,14 @@
-import './App.css';
-import Navi from './layouts/Navi.jsx';
+import "./App.css";
+import Navi from "./layouts/Navi.jsx";
 import Dashboard from "./layouts/Dashboard";
 import "semantic-ui-css/semantic.min.css";
-import { Container } from "semantic-ui-react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/main.css";
 function App() {
   return (
-    <div className="App">
+    <div className="App main-background">
       <Navi></Navi>
-      <Container className="main">
-        <Dashboard />
-      </Container>
+      <Dashboard />
     </div>
   );
 }
