@@ -3,23 +3,24 @@ import JobTitleService from "../../../services/jobTitle";
 import { Dropdown } from "semantic-ui-react";
 export default function Job() {
   const [jobs, setJobs] = useState([]);
-
   useEffect(() => {
     let jobTitleService = new JobTitleService();
-
     jobTitleService.getJobs().then((result) => setJobs(result.data.data));
-
-    console.log(jobs)
   }, []);
+
+  const stateOptions = jobs.map((job) => ({
+    key: job.id,
+    text: job.jobTitle,
+    value: job.id,
+  }));
   return (
     <div>
-      <Dropdown text="Job Titles" search selection>
-        <Dropdown.Menu>
-          {jobs.map((job) => (
-            <Dropdown.Item key={job.id}>{job.jobTitle}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+      <Dropdown
+        placeholder="Select Job"
+        search
+        selection
+        options={stateOptions}
+      ></Dropdown>
     </div>
   );
 }
