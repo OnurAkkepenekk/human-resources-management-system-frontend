@@ -1,0 +1,5 @@
+.main-background{
+    height: 100vh;
+    /* background: url(../images/main.png) no-repeat center center/cover; */
+    background-color:#ffff;
+}
