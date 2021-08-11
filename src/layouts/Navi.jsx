@@ -4,7 +4,6 @@ import SignedOut from "./SignedOut";
 import SignIn from "./SignIn";
 import { useState } from "react";
 import { useHistory, NavLink } from "react-router-dom";
-import "./csses/filter.css";
 export default function Navi() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   let history = useHistory();
