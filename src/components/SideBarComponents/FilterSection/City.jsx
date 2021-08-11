@@ -9,15 +9,21 @@ export default function City() {
     cityService.getCities().then((result) => setCities(result.data.data));
     console.log(cities);
   }, []);
+
+  const stateOptions = cities.map((city) => ({
+    key: city.id,
+    text: city.cityName,
+    value: city.id,
+  }));
+
   return (
     <div>
-      <Dropdown text="Cities" search selection>
-        <Dropdown.Menu>
-          {cities.map((city) => (
-            <Dropdown.Item key={city.id}>{city.cityName}</Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+      <Dropdown
+        placeholder="Select City"
+        search
+        selection
+        options={stateOptions}
+      ></Dropdown>
     </div>
   );
 }
