@@ -1,24 +1,25 @@
-import HRMSTextInput from "../../utilities/customFormControls/HRMSTextInput";
 import React, { useEffect, useState } from "react";
-import { Form, Formik, useFormik } from "formik";
-import * as Yup from "yup";
-import { Button, Dropdown, Segment, FormField } from "semantic-ui-react";
-import JobAdvertisementService from "../../services/jobAdvertisement";
+import { Form, Select, Button, Alert, Input, Modal } from "antd";
 import CityService from "../../services/cityService";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import moment from "moment";
 import JobTitleService from "../../services/jobTitle";
 import WorkTimeTypeService from "../../services/workTimeTypeService";
 import WorkTypeService from "../../services/workTypeService";
-import moment from "moment";
-export default function JobAdvertisementAdd() {
+import JobAdvertisementService from "../../services/jobAdvertisement";
+const { Option } = Select;
+const JobAdvertisementAdd = () => {
   const [cities, setCities] = useState([]);
   const [jobPositions, setJobPositions] = useState([]);
   const [workTimeTypes, setWorkTimeTypes] = useState([]);
   const [workTypes, setWorkTypes] = useState([]);
+
   let jobAdvertisementService = new JobAdvertisementService();
 
   useEffect(() => {
     let cityService = new CityService();
-    cityService.getCities().then((result) => setCities(result.data.data));
+    cityService.getCities().then(result => setCities(result.data.data));
 
     let jobPositionService = new JobTitleService();
     jobPositionService
@@ -34,9 +35,11 @@ export default function JobAdvertisementAdd() {
     workTypeService
       .getWorkTypes()
       .then((result) => setWorkTypes(result.data.data));
-  }, []);
-
-  const initialValues = {
+  }, [])
+  const options = (cities.map(city => {
+    return (<Option key={city.id} value={city.id}>{city.cityName}</Option>)
+  }))
+  let initialValues = {
     employerId: 1,
     cityId: "",
     jobPositionId: "",
@@ -49,151 +52,133 @@ export default function JobAdvertisementAdd() {
     lastApplyDate: "",
     jobDescription: "",
     isActive: true,
-  };
+  }
+  const { getFieldProps, handleSubmit, setFieldValue, touched, errors } = useFormik({
+    initialValues: { initialValues },
+    onSubmit(values) {
+      console.log("values geldi ekleme işlemine hazr")
+      initialValues = values
+      const jobAdvertisement = {
+        active: values.initialValues.isActive,
+        city: { id: values.cityId },
+        jobPosition: { id: values.jobPositionId },
+        employer: { id: values.initialValues.employerId },
+        jobDescription: values.jobDescription,
+        lastApplyDate: values.lastApplyDate,
+        maxSalary: values.maxSalary,
+        minSalary: values.minSalary,
+        openPositionCount: values.openPositionCount,
+        workTimeType: { workTimeTypeId: values.workTimeTypeId },
+        workType: { workTypeId: values.workTypeId },
+        publishDate: values.initialValues.publishDate,
+      };
+      jobAdvertisementService.add(jobAdvertisement).then(response => {
+        console.log(response);
+        Modal.success({
+          title: response.data.message,
+          content: response.data.message
+        });
+      }).catch(error => {
+        console.log(error)
+        Modal.error({
+          title: error.data.message,
+          content: error.data.message
+        });
+      })
 
-  const schema = Yup.object({
-    cityId: Yup.number().required("Alanı doldurun"),
-    jobPositionId: Yup.number().required("Alanı doldurun"),
-    workTypeId: Yup.number().required("Alanı doldurun"),
-    workTimeTypeId: Yup.number().required("Alanı doldurun"),
-    maxSalary: Yup.number().required("Alanı doldurun"),
-    minSalary: Yup.number().required("Alanı doldurun"),
-    lastApplyDate: Yup.date().required("Alanı doldurun"),
-    jobDescription: Yup.string().required("Alanı doldurun"),
-    openPositionCount: Yup.number().required("Alanı doldurun"),
-  });
-
+    },
+    validationSchema: Yup.object().shape({
+      cityId: Yup.string().typeError("Fill in the field").required("CityId cannot be empty!"),
+      jobPositionId: Yup.number().required("Fill in the field").typeError("sayı girin"),
+      workTypeId: Yup.number().required("Fill in the field"),
+      workTimeTypeId: Yup.number().required("Fill in the field"),
+      maxSalary: Yup.number().required("Fill in the field").test('Is positive?', 'Amount must be a positive number', (value) => value > 0),
+      minSalary: Yup.number().required("Fill in the field").test('Is positive?', 'Amount must be a positive number', (value) => value > 0),
+      lastApplyDate: Yup.date().required("Fill in the field"),
+      jobDescription: Yup.string().required("Fill in the field"),
+      openPositionCount: Yup.number().required("Fill in the field").typeError('Amount must be a number'),
+    })
+  })
   return (
-    <div>
-      <h1>Add new job advertisement</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={(values) => {
-          const jobAdvertisement = {
-            active: values.isActive,
-            city: { id: values.cityId },
-            jobPosition: { id: values.jobPositionId },
-            employer: { id: values.employerId },
-            jobDescription: values.jobDescription,
-            lastApplyDate: values.lastApplyDate,
-            maxSalary: values.maxSalary,
-            minSalary: values.minSalary,
-            openPositionCount: values.openPositionCount,
-            workTimeType: { workTimeTypeId: values.workTimeTypeId },
-            workType: { workTypeId: values.workTypeId },
-            publishDate: values.publishDate,
-          };
-          jobAdvertisementService.add(jobAdvertisement);
-        }}
-      >
-        {(formik) => (
-          <Form className="ui form" onSubmit={formik.handleSubmit}>
-            <FormField
-              name="jobPositionId"
-              placeholder="Position"
-              control="select"
-              onChange={formik.handleChange}
-            >
-              <option value="" disabled>
-                Select position
-              </option>
-              {jobPositions.map((jobPosition) => (
-                <option key={jobPosition.id} value={jobPosition.id}>
-                  {jobPosition.jobTitle}
-                </option>
-              ))}
-            </FormField>
-            <FormField
-              name="cityId"
-              placeholder="city"
-              control="select"
-              onChange={formik.handleChange}
-            >
-              <option value="" disabled>
-                Select city
-              </option>
-              {cities.map((city) => (
-                <option key={city.id} value={city.id}>
-                  {city.cityName}
-                </option>
-              ))}
-            </FormField>
-            <FormField
-              name="workTypeId"
-              placeholder="workTypeId"
-              control="select"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <option value="" disabled>
-                Select work type
-              </option>
-              {workTypes.map((workType) => (
-                <option key={workType.workTypeId} value={workType.workTypeId}>
-                  {workType.workTypeName}
-                </option>
-              ))}
-              ;
-            </FormField>
 
-            <FormField
-              name="workTimeTypeId"
-              placeholder="workTimeTypeId"
-              control="select"
-              onChange={formik.handleChange}
-            >
-              <option value="" disabled>
-                Select work time type
-              </option>
-              {workTimeTypes.map((workTimeType) => (
-                <option
-                  key={workTimeType.workTimeTypeId}
-                  value={workTimeType.workTimeTypeId}
-                >
-                  {workTimeType.workTimeTypeName}
-                </option>
-              ))}
-              ;
-            </FormField>
-            <div className="col-md-4" style={{ display: "inline-block" }}>
-              <HRMSTextInput
-                name="minSalary"
-                placeholder="Minimum salary"
-              ></HRMSTextInput>
-            </div>
-            <div className="col-md-4" style={{ display: "inline-block" }}>
-              <HRMSTextInput
-                name="maxSalary"
-                placeholder="Maximum Salary"
-              ></HRMSTextInput>
-            </div>
-            <div className="col-md-4" style={{ display: "inline-block" }}>
-              <HRMSTextInput
-                name="lastApplyDate"
-                placeholder="Last Apply Date"
-                type="date"
-              ></HRMSTextInput>
-            </div>
-            <div className="col-md-12">
-              <HRMSTextInput
-                name="jobDescription"
-                placeholder="Job Description"
-                type="text"
-              ></HRMSTextInput>
-            </div>
-            <div className="col-md-4">
-              <HRMSTextInput
-                name="openPositionCount"
-                placeholder="Open Position Count"
-              ></HRMSTextInput>
-            </div>
-            <Button color="green" type="submit">
-              Add
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+    <Form onFinish={handleSubmit} labelCol={{ span: 4, }} wrapperCol={{ span: 14, }} layout="horizontal" size="large" >
+      <div><h2 style={{ margin: "1rem" }}>Add New Job Advertisement</h2></div>
+      <Form.Item label="Job Position" required  >
+        <Select placeholder="Choose a job position"
+          onChange={value => setFieldValue('jobPositionId', value)}>
+          {
+            jobPositions.map((jobPosition) => (
+              <Option key={jobPosition.id} value={jobPosition.id}>
+                {jobPosition.jobTitle}
+              </Option>
+            ))
+          }
+        </Select>
+        {!touched.jobPositionId && errors.jobPositionId ? <Alert message={errors.jobPositionId} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item label="City" required>
+        <Select
+          placeholder="Choose a city"
+          onChange={value => setFieldValue('cityId', value)}
+        >
+          {options}
+        </Select>
+        {!touched.cityId && errors.cityId ? <Alert message={errors.cityId} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="Work type">
+        <Select placeholder="Choose a work type"
+          onChange={value => setFieldValue('workTypeId', value)}>
+          {
+            workTypes.map((workType) => (
+              <Option key={workType.workTypeId} value={workType.workTypeId}>
+                {workType.workTypeName}
+              </Option>
+            ))
+          }
+        </Select>
+        {!touched.workTypeId && errors.workTypeId ? <Alert message={errors.workTypeId} type="error" showIcon /> : null}
+      </Form.Item>
+
+      <Form.Item required label="Work type">
+        <Select placeholder="Choose a work time type"
+          onChange={value => setFieldValue('workTimeTypeId', value)} >
+          {
+            workTimeTypes.map((workTimeType) => (
+              <Option
+                key={workTimeType.workTimeTypeId} value={workTimeType.workTimeTypeId}
+              >
+                {workTimeType.workTimeTypeName}
+              </Option>
+            ))
+          }
+        </Select>
+        {!touched.workTimeTypeId && errors.workTimeTypeId ? <Alert message={errors.workTimeTypeId} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="Minimum salary">
+        <Input {...getFieldProps("minSalary")} name="minSalary" />
+        {touched.minSalary && errors.minSalary ? <Alert message={errors.minSalary} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="Maximum salary">
+        <Input {...getFieldProps("maxSalary")} />
+        {touched.maxSalary && errors.maxSalary ? <Alert message={errors.maxSalary} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="Last Apply Date">
+        <Input {...getFieldProps("lastApplyDate")} type="date" name="lastApplyDate" required />
+        {touched.lastApplyDate && errors.lastApplyDate ? <Alert message={errors.lastApplyDate} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="Description" >
+        <Input {...getFieldProps("jobDescription")} name="jobDescription" />
+        {touched.jobDescription && errors.jobDescription ? <Alert message={errors.jobDescription} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item required label="openPositionCount" >
+        <Input {...getFieldProps("openPositionCount")} name="openPositionCount" />
+        {touched.openPositionCount && errors.openPositionCount ? <Alert message={errors.openPositionCount} type="error" showIcon /> : null}
+      </Form.Item>
+      <Form.Item >
+        <Button onClick={handleSubmit}>Ekle</Button>
+      </Form.Item>
+
+    </Form>
+  )
 }
+export default JobAdvertisementAdd;
