@@ -1,61 +1,108 @@
 import React from "react";
-import { Container } from "semantic-ui-react";
-import { Grid, Image, Rail, Segment } from "semantic-ui-react";
 import JobAdvertisement from "../pages/JobAdvertisement";
 import { Route } from "react-router";
 import JobAdvertisementAdd from "../pages/jobAdvertisement/JobAdvertisementAdd";
 import JobAdvertisementDetails from "../pages/jobAdvertisement/JobAdvertisementDetails";
-import "../css/main.css";
 import EmployerInfo from "../pages/employer/EmployerInfo";
-import Sidebar from "./Sidebar";
-import "../css/Dashboard/dashboard.css";
-import Leftbar from "./Leftbar";
+import { Layout as AntLayout, Menu } from 'antd';
+import Main from '../pages/main/Main'
+import { Link } from "react-router-dom";
+import {
+  LogoutOutlined,
+  UserOutlined,
+  UploadOutlined,
+  VideoCameraOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+import "../css/Dashboard/dashboard.css"
+import { useState } from 'react';
+import { Image } from 'semantic-ui-react'
+import EmployerList from "../pages/EmployerList";
 export default function Dashboard() {
+  const { Content, Footer, Sider } = AntLayout;
+  const [collapsed, setCollapsed] = useState(false);
+  const openCloseMenu = () => {
+    setCollapsed(!collapsed);
+  }
   return (
-    <div>
-      <Grid centered columns={2}>
-        <Grid.Column>
-          <Segment>
-            <Container className="main">
-              <Grid>
-                <Grid.Row>
-                  <Grid.Column>
-                    <Route exact path="/" component={JobAdvertisement}></Route>
-                    <Route
-                      exact
-                      path="/jobadvertisement"
-                      component={JobAdvertisement}
-                    ></Route>
-                    <Route
-                      exact
-                      path="/jobadvertisement/add"
-                      component={JobAdvertisementAdd}
-                    ></Route>
-                    <Route
-                      path="/jobadvertisements/:id"
-                      component={JobAdvertisementDetails}
-                    ></Route>
-                    <Route
-                      path="/employer/:id"
-                      component={EmployerInfo}
-                    ></Route>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Container>
 
-            <Rail position="left">
-              <Segment><Leftbar/></Segment>
-            </Rail>
+    <AntLayout>
+      <Sider style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+      }} trigger={null} collapsible collapsed={collapsed}>
 
-            <Rail position="right">
-              <Segment>
-                <Sidebar />
-              </Segment>
-            </Rail>
-          </Segment>
-        </Grid.Column>
-      </Grid>
-    </div>
-  );
+        <div style={{ height: '64px' }} >
+          {collapsed ? <MenuUnfoldOutlined className='sider-button sider-collapsed' onClick={openCloseMenu} /> :
+            <MenuFoldOutlined className='sider-button sider-not-collapsed' onClick={openCloseMenu} />
+          }
+        </div>
+        <div className="logo" >
+          <Image avatar spaced="right" src="https://avatars.githubusercontent.com/u/61885344?v=4"></Image>
+        </div>
+        {
+          collapsed ? null :
+            <div className="sider-header">
+              <h2>HRMS</h2>
+            </div>
+        }
+
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            <Link to="/" className="nav-text">Main page</Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            <Link to="/jobadvertisement" className="nav-text"> Job Advertisement</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<UploadOutlined />}>
+            <Link to="/employer" className="nav-text">Employer</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<LogoutOutlined />}>
+            Logout
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
+
+        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+            <Route
+              exact
+              path="/"
+              component={Main}>
+            </Route>
+            <Route
+              exact
+              path="/jobadvertisement"
+              component={JobAdvertisement}
+            ></Route>
+            <Route
+              exact
+              path="/jobadvertisement/add"
+              component={JobAdvertisementAdd}
+            ></Route>
+            <Route
+              path="/jobadvertisement/:id"
+              component={JobAdvertisementDetails}
+            ></Route>
+            <Route
+              path="/employer/jobadvertisements"
+              component={JobAdvertisementDetails}
+            ></Route>
+            <Route
+              path="/employer/:id"
+              component={EmployerInfo}
+            ></Route>
+            <Route
+              path="/employer"
+              component={EmployerList}
+            ></Route>
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center', marginBottom:"0"}}>Onur Akkepenek ©2021 Created by Ant UED</Footer>
+      </AntLayout>
+    </AntLayout>)
 }
