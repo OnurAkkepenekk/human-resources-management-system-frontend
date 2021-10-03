@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "semantic-ui-css/semantic.min.css";
+import "antd/dist/antd.css";
 import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
   <BrowserRouter>
