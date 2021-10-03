@@ -1,58 +1,70 @@
 import React, { useState, useEffect } from "react";
 import JobAdvertisementService from "../services/jobAdvertisement";
-import { Table } from "semantic-ui-react";
+import { Table, Tag } from 'antd';
 import { Link } from "react-router-dom";
-import "../css/JobAdvertisement/JobAdvertisementList.css"
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
 
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
-
   useEffect(() => {
     jobAdvertisementService
       .getJobAdvertisement()
-      .then((result) => setJobAdvertisements(result.data.data));
+      .then((result) => {
+        setJobAdvertisements(result.data.data);
+        console.log(jobAdvertisements)
+      });
   }, []);
+  const columns = [
 
-  return (
-    <div>
-      <h1>JobAdvertisement</h1>
-      {console.log(jobAdvertisements)}
-      <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Job Description</Table.HeaderCell>
-            <Table.HeaderCell>Company</Table.HeaderCell>
-            <Table.HeaderCell>Position</Table.HeaderCell>
-            <Table.HeaderCell>Work Time Type</Table.HeaderCell>
-            <Table.HeaderCell>Work Type</Table.HeaderCell>
-            <Table.HeaderCell>Open Position Count</Table.HeaderCell>
-            <Table.HeaderCell>Publish Date</Table.HeaderCell>
-            <Table.HeaderCell>Last Apply Date</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {jobAdvertisements.map((jobAdvert) => (
-            <Table.Row key={jobAdvert.id}>
-              <Table.Cell>{jobAdvert.jobDescription}</Table.Cell>
-              <Table.Cell>
-              <Link to={`/employer/${jobAdvert.employer.id}`}>{jobAdvert.employer.companyName}</Link>
-              </Table.Cell>
-              <Table.Cell>{jobAdvert.jobPosition.jobTitle}</Table.Cell>
-              <Table.Cell>{jobAdvert.workTimeType.workTimeTypeName}</Table.Cell>
-              <Table.Cell>{jobAdvert.workType.workTypeName}</Table.Cell>
-              <Table.Cell>{jobAdvert.openPositionCount}</Table.Cell>
-              <Table.Cell>{jobAdvert.lastApplyDate}</Table.Cell>
-              <Table.Cell>{jobAdvert.publishDate}</Table.Cell>
-              <Table.Cell>
-                <Link to={`/jobadvertisements/${jobAdvert.id}`}>Review</Link>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </div>
-  );
+    {
+      title: 'Company',
+      dataIndex: 'companyName',
+      key: 'companyName',
+      render: text => <Link to={`/employer/${text}`} >{text}</Link>,
+    },
+    {
+      title: 'City',
+      dataIndex: 'cityName',
+      key: 'cityName',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'jobDescription',
+      key: 'jobDescription',
+    },
+    {
+      title: 'Position',
+      dataIndex: 'jobPosition',
+      key: 'jobPosition',
+    },
+    {
+      title: 'Work Time Type',
+      dataIndex: 'workTimeTypeName',
+      key: 'workTimeTypeName',
+    },
+    {
+      title: 'Work Type',
+      dataIndex: 'workTypeName',
+      key: 'workTypeName',
+    },
+    {
+      title: 'Active',
+      dataIndex: 'active',
+      key: 'active',
+      render: (active) => (
+        <Tag color={active === "true" ? 'green' : 'red'} key={active}>
+          {active}
+        </Tag>
+      ),
+    },
+    {
+      title: '',
+      dataIndex:'id',
+      key:'id',
+      render: id => <Link to={`/jobadvertisment/${id}`} >Review</Link>,
+    }
+  ];
+  return <>
+    <Table columns={columns} dataSource={jobAdvertisements} />
+  </>
 }

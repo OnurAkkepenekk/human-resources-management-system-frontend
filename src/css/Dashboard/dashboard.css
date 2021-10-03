@@ -1,3 +1,28 @@
-.ui.grid{
-    margin-top: 4rem !important;
+#components-layout-demo-fixed-sider .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.site-layout .site-layout-background {
+  background: #fff;
+}
+.sider-button{
+  color:white !important;
+  font-size: 24px;
+  margin-left: 50px;
+}
+.ant-layout-sider-children{
+  background-color:#222831 !important;
+
+}
+.ant-menu.ant-menu-dark{
+  background-color: #222831 !important;
+}
+.sider-header {
+  margin-top: 100px;
+  margin-bottom: 10px;
+ 
+}
+.sider-header h2{
+  color: #fff;
 }
