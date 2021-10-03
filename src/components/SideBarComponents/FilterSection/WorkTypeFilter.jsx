@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WorkTypeService from "../../../services/workTypeService";
-import { Dropdown } from "semantic-ui-react";
-
+import { Select } from 'antd';
 export default function WorkTypeFilter() {
   const [workTypes, setWorkTypes] = useState([]);
   useEffect(() => {
@@ -13,7 +12,7 @@ export default function WorkTypeFilter() {
       await workTypeService
         .getWorkTypes()
         .then((result) => setWorkTypes(result.data.data));
-    } catch (error) {}
+    } catch (error) { }
     console.log(workTypes);
   };
   const stateOptions = workTypes.map((workType) => ({
@@ -21,14 +20,42 @@ export default function WorkTypeFilter() {
     text: workType.workTypeName,
     value: workType.workTypeId,
   }));
+  const { Option } = Select;
+
+  function onChange(value) {
+    console.log(`selected ${value}`);
+  }
+
+  function onBlur() {
+    console.log('blur');
+  }
+
+  function onFocus() {
+    console.log('focus');
+  }
+
+  function onSearch(val) {
+    console.log('search:', val);
+  }
   return (
     <div>
-      <Dropdown
-        placeholder="Select Work Type"
-        search
-        selection
-        options={stateOptions}
-      ></Dropdown>
+      <Select
+        showSearch
+        style={{ width: 200 }}
+        placeholder="Select a city"
+        optionFilterProp="children"
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onSearch={onSearch}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        {workTypes.map(workType => (
+          <Option key={workType.workTypeId} value={workType.workTypeId}>{workType.workTypeName}</Option>
+        ))}
+      </Select>,
     </div>
   );
 }
