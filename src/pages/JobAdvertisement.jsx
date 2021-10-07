@@ -59,9 +59,9 @@ export default function JobAdvertisement() {
     },
     {
       title: '',
-      dataIndex:'id',
-      key:'id',
-      render: id => <Link to={`/jobadvertisment/${id}`} >Review</Link>,
+      dataIndex: 'id',
+      key: 'id',
+      render: id => <Link to={`/jobadvertisements/details/${id}`} >Review</Link>,
     }
   ];
   return <>
