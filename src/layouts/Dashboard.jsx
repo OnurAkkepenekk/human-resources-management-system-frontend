@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import JobAdvertisement from "../pages/JobAdvertisement";
 import { Route } from "react-router";
 import JobAdvertisementAdd from "../pages/jobAdvertisement/JobAdvertisementAdd";
@@ -16,7 +16,6 @@ import {
   MenuFoldOutlined,
 } from '@ant-design/icons';
 import "../css/Dashboard/dashboard.css"
-import { useState } from 'react';
 import { Image } from 'semantic-ui-react'
 import EmployerList from "../pages/EmployerList";
 export default function Dashboard() {
@@ -67,7 +66,7 @@ export default function Dashboard() {
       </Sider>
       <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
 
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: "100vh" }}>
           <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
             <Route
               exact
@@ -81,28 +80,37 @@ export default function Dashboard() {
             ></Route>
             <Route
               exact
-              path="/jobadvertisement/add"
-              component={JobAdvertisementAdd}
-            ></Route>
-            <Route
-              path="/jobadvertisement/:id"
+              path="/jobadvertisements/details/:id"
               component={JobAdvertisementDetails}
             ></Route>
             <Route
+              exact
               path="/employer/jobadvertisements"
               component={JobAdvertisementDetails}
             ></Route>
             <Route
+              exact
               path="/employer/:id"
               component={EmployerInfo}
             ></Route>
             <Route
+              exact
               path="/employer"
               component={EmployerList}
             ></Route>
+            <Route
+              exact
+              path="/jobadvertisement/add"
+              component={JobAdvertisementAdd}
+            ></Route>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center', marginBottom:"0"}}>Onur Akkepenek ©2021 Created by Ant UED</Footer>
+        <Footer style={{
+          position: "relative",
+          bottom: 0,
+          width: "100%",
+          height: "60px",   /* Height of the footer */
+        }}>Onur Akkepenek ©2021 Created by Ant UED</Footer>
       </AntLayout>
     </AntLayout>)
 }
