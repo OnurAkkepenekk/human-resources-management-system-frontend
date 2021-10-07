@@ -61,8 +61,8 @@ export default function JobAdvertisementDetails() {
                 </Col>
                 <Col span={11}  style={{ margin: 15 }}>
                   <Card title="Date Info" bordered={false}>
-                  Last Apply Date : {Moment(advertisementDetail.publishDate).format("yyyy/MM/dd")} <br/>
-                  Last Apply Date : {Moment(advertisementDetail.publishDate).format("yyyy/MM/dd")}
+                  Publish Date : {Moment(advertisementDetail.publishDate).format("yyyy/MM/dd")} <br/>
+                  Last Apply Date : {Moment(advertisementDetail.lastApplyDate).format("yyyy/MM/dd")}
                   </Card>
                 </Col>
                 <Col span={24}  style={{ marginLeft: 4, marginRight:20  }}>
