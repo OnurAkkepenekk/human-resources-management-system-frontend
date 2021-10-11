@@ -6,7 +6,12 @@ import JobAdvertisementDetails from "../pages/jobAdvertisement/JobAdvertisementD
 import EmployerInfo from "../pages/employer/EmployerInfo";
 import { Layout as AntLayout, Menu } from 'antd';
 import Main from '../pages/main/Main'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import "../css/Dashboard/dashboard.css"
+import { Image } from 'semantic-ui-react'
+import EmployerList from "../pages/EmployerList";
+import Register from "../pages/register/Register";
+import LoginForm from "../pages/login/Login";
 import {
   LogoutOutlined,
   UserOutlined,
@@ -15,12 +20,14 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
-import "../css/Dashboard/dashboard.css"
-import { Image } from 'semantic-ui-react'
-import EmployerList from "../pages/EmployerList";
+
+
 export default function Dashboard() {
   const { Content, Footer, Sider } = AntLayout;
   const [collapsed, setCollapsed] = useState(false);
+  var {name} = useParams();
+  console.log(name);
+
   const openCloseMenu = () => {
     setCollapsed(!collapsed);
   }
@@ -65,7 +72,7 @@ export default function Dashboard() {
         </Menu>
       </Sider>
       <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
-
+      
         <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: "100vh" }}>
           <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
             <Route
@@ -73,6 +80,16 @@ export default function Dashboard() {
               path="/"
               component={Main}>
             </Route>
+            <Route
+              exact
+              path="/login"
+              component={LoginForm}>
+            </Route>
+            <Route
+              exact
+              path="/register"
+              component={Register}
+            ></Route>
             <Route
               exact
               path="/jobadvertisement"
