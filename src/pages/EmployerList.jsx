@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import EmployerService from "../services/employerService";
-import { Table, Icon, Menu } from "semantic-ui-react";
+import { Card, Icon, Avatar, Col, Row } from "antd";
+const { Meta } = Card;
 export default function EmployerList() {
   const [employers, setEmployers] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let employerService = new EmployerService();
     employerService.getEmployers().then((result) => {
@@ -12,50 +14,22 @@ export default function EmployerList() {
   }, []);
 
   return (
-    <div>
-        Employers List
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Company Name</Table.HeaderCell>
-            <Table.HeaderCell>Web Address</Table.HeaderCell>
-            <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Phone Number</Table.HeaderCell>
-            <Table.HeaderCell>Activated</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
+      <div style={{ background: "#ECECEC", padding: "30px" }}>
+        <Row gutter={16}>
           {employers.map((employer) => (
-            <Table.Row key={employer.id}>
-              <Table.Cell>{employer.companyName}</Table.Cell>
-              <Table.Cell>{employer.webAddress}</Table.Cell>
-              <Table.Cell>{employer.phoneNumber}</Table.Cell>
-              <Table.Cell>{employer.phoneNumber}</Table.Cell>
-              <Table.Cell>{employer.activated? <Icon color='green' name='checkmark' />: <Icon color='red' name='close' />}</Table.Cell>
-            </Table.Row>
+            <Col span={8} key={employer.id}>
+              <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
+                <Meta
+                  avatar={
+                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  }
+                  title={employer.companyName}
+                  description={employer.email}
+                />
+              </Card>
+            </Col>
           ))}
-        </Table.Body>
-
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan="3">
-              <Menu floated="right" pagination>
-                <Menu.Item as="a" icon>
-                  <Icon name="chevron left" />
-                </Menu.Item>
-                <Menu.Item as="a">1</Menu.Item>
-                <Menu.Item as="a">2</Menu.Item>
-                <Menu.Item as="a">3</Menu.Item>
-                <Menu.Item as="a">4</Menu.Item>
-                <Menu.Item as="a" icon>
-                  <Icon name="chevron right" />
-                </Menu.Item>
-              </Menu>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table>
-    </div>
-  );
+        </Row>
+      </div>
+  )
 }
