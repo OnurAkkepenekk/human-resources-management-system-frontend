@@ -2,33 +2,48 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import EmployerService from "../../services/employerService";
 import JobAdvertisementService from "../../services/jobAdvertisement";
-import { Table, Grid, Image, Menu, Icon, Segment } from "semantic-ui-react";
-import photo from "../../images/alchemy.gif";
+import { Table, Grid, Menu, Icon, Segment } from "semantic-ui-react";
+import { Image } from 'antd';
 import { Link } from "react-router-dom";
+import { Tabs } from 'antd';
+import { Card, Spin, Space, Avatar, Col, Row } from "antd";
+import { StickyContainer, Sticky } from 'react-sticky';
+
+const { Meta } = Card;
+const { TabPane } = Tabs;
+const renderTabBar = (props, DefaultTabBar) => (
+  <Sticky bottomOffset={80}>
+    {({ style }) => (
+      <DefaultTabBar {...props} className="site-custom-tab-bar" style={{ ...style }} />
+    )}
+  </Sticky>
+);
 export default function EmployerInfo() {
+const [loading, setLoading] = useState(false)
   const [employer, setEmployer] = useState([]);
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
-  let { id } = useParams();
+  let { employerId } = useParams();
 
   const [activeItem, setActiveItem] = useState("adress");
 
   useEffect(() => {
     let employerService = new EmployerService();
-    employerService.getEmployer(id).then((result) => {
+    employerService.getEmployer(employerId).then((result) => {
       setEmployer(result.data.data);
       console.log(employer);
     });
 
     let jobAdvertisementService = new JobAdvertisementService();
     jobAdvertisementService
-      .findByIsActiveTrueAndEmployer_Id(id)
+      .findByIsActiveTrueAndEmployer_Id(employerId)
       .then((result) => {
         setJobAdvertisements(result.data.data);
         console.log(jobAdvertisements);
       });
+      setLoading(true);
   }, []);
 
-  function JobAdvertisementInfo() {
+  let JobAdvertisementInfo = () => {
     return (
       <Table striped>
         <Table.Header>
@@ -69,57 +84,65 @@ export default function EmployerInfo() {
 
   function ContactInfo() {
     return (
-      <div style={{display:"flex"}}>
-        <h4 style={{}}><Icon name="mail outline" size='big'></Icon>{employer.email}</h4>
-        <h4 style={{}}><Icon name="phone volume" size='big'></Icon>{employer.phoneNumber}</h4>
+      <div >
+        <h4 style={{ display: "inline-block" }}><Icon name="mail outline" size='big'></Icon >{employer.email}</h4>
+        <h4 style={{ display: "inline-block" }}><Icon name="phone volume" size='big'></Icon>{employer.phoneNumber}</h4>
         <h4>{employer.activated}</h4>
-      </div>
+      </div >
     );
   }
   return (
     <div>
       {console.log(employer)}
       {console.log(jobAdvertisements)}
+
       <Grid celled="internally">
         <Grid.Row>
           <Grid.Column width={3}>
-            <Image src={photo} />
+            <Image.PreviewGroup>
+              <Image width={200} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
+            </Image.PreviewGroup>
           </Grid.Column>
           <Grid.Column width={13}>
             <h1 className="companyName">{employer.companyName}</h1>
-            <h3>Şirket tanıtımı eklenmeli</h3>
-            <h5>Web site :{employer.webAddress}</h5>
+            <h4>{employer.introduction}</h4>
+            <h3>{employer.webAddress}</h3>
+            <hr />
+            <ContactInfo></ContactInfo>
+            <hr />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
-          <Menu attached="top" tabular>
-            <Menu.Item
-              name="Adress"
-              active={activeItem === "adress"}
-              onClick={() => setActiveItem("adress")}
-            />
-            <Menu.Item
-              name="Contact"
-              active={activeItem === "contact"}
-              onClick={() => setActiveItem("contact")}
-            />
-            <Menu.Item
-              name="Job Advertisement"
-              active={activeItem === "jobAdvert"}
-              onClick={() => {
-                setActiveItem("jobAdvert");
-              }}
-            ></Menu.Item>
-            <Menu.Menu position="right"></Menu.Menu>
-          </Menu>
-          <Segment attached="bottom">
-            {activeItem === "jobAdvert" ? (
-              <JobAdvertisementInfo></JobAdvertisementInfo>
-            ) : (
-              <ContactInfo></ContactInfo>
-            )}
-          </Segment>
-        </Grid.Row>
+        <StickyContainer>
+          <Tabs defaultActiveKey="1" renderTabBar={renderTabBar}>
+            <TabPane tab="Job Advertisement" key="1" style={{ height: 1000 }}>
+              {loading ?
+                <div style={{ background: "#ECECEC", padding: "30px" }}>
+                  <Row gutter={16}>
+                    {jobAdvertisements.map((jobAdvertisement) => (
+                      <Col span={8} key={jobAdvertisement.id} onClick={() => console.log(jobAdvertisement)}>
+                        <Card style={{ width: 300, marginTop: 16 }} loading={false} hoverable={true}>
+                          <Link to={`/jobAdvertisement/${jobAdvertisement.id}`}>
+                            <Meta
+                              avatar={
+                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                              }
+                              title={jobAdvertisement.jobPosition.jobTitle}
+                              description={jobAdvertisement.jobDescription}
+                            />
+                          </Link>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+                :
+                <Space size="middle">
+                  <Spin size="large" />
+                </Space>}
+            </TabPane>
+          </Tabs>
+        </StickyContainer>
+
       </Grid>
     </div>
   );
