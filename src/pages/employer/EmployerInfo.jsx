@@ -19,18 +19,15 @@ const renderTabBar = (props, DefaultTabBar) => (
   </Sticky>
 );
 export default function EmployerInfo() {
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [employer, setEmployer] = useState([]);
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
   let { employerId } = useParams();
-
-  const [activeItem, setActiveItem] = useState("adress");
 
   useEffect(() => {
     let employerService = new EmployerService();
     employerService.getEmployer(employerId).then((result) => {
       setEmployer(result.data.data);
-      console.log(employer);
     });
 
     let jobAdvertisementService = new JobAdvertisementService();
@@ -38,49 +35,9 @@ const [loading, setLoading] = useState(false)
       .findByIsActiveTrueAndEmployer_Id(employerId)
       .then((result) => {
         setJobAdvertisements(result.data.data);
-        console.log(jobAdvertisements);
+        setLoading(true);
       });
-      setLoading(true);
   }, []);
-
-  let JobAdvertisementInfo = () => {
-    return (
-      <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Job Description</Table.HeaderCell>
-            <Table.HeaderCell>Position</Table.HeaderCell>
-            <Table.HeaderCell>Work Time Type</Table.HeaderCell>
-            <Table.HeaderCell>Work Type</Table.HeaderCell>
-            <Table.HeaderCell>Minimum Salary</Table.HeaderCell>
-            <Table.HeaderCell>Maximum Salary</Table.HeaderCell>
-            <Table.HeaderCell>Open Position Count</Table.HeaderCell>
-            <Table.HeaderCell>Publish Date</Table.HeaderCell>
-            <Table.HeaderCell>Last Apply Date</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {jobAdvertisements.map((jobAdvert) => (
-            <Table.Row key={jobAdvert.id}>
-              <Table.Cell>{jobAdvert.jobDescription}</Table.Cell>
-              <Table.Cell>{jobAdvert.jobPosition.jobTitle}</Table.Cell>
-              <Table.Cell>{jobAdvert.workTimeType.workTimeTypeName}</Table.Cell>
-              <Table.Cell>{jobAdvert.workType.workTypeName}</Table.Cell>
-              <Table.Cell>{jobAdvert.minSalary}</Table.Cell>
-              <Table.Cell>{jobAdvert.maxSalary}</Table.Cell>
-              <Table.Cell>{jobAdvert.openPositionCount}</Table.Cell>
-              <Table.Cell>{jobAdvert.publishDate}</Table.Cell>
-              <Table.Cell>{jobAdvert.lastApplyDate}</Table.Cell>
-              <Table.Cell><Link to={`/jobadvertisements/${jobAdvert.id}`}>Review</Link></Table.Cell>
-
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    );
-  }
 
   function ContactInfo() {
     return (
@@ -93,9 +50,6 @@ const [loading, setLoading] = useState(false)
   }
   return (
     <div>
-      {console.log(employer)}
-      {console.log(jobAdvertisements)}
-
       <Grid celled="internally">
         <Grid.Row>
           <Grid.Column width={3}>
@@ -121,7 +75,7 @@ const [loading, setLoading] = useState(false)
                     {jobAdvertisements.map((jobAdvertisement) => (
                       <Col span={8} key={jobAdvertisement.id} onClick={() => console.log(jobAdvertisement)}>
                         <Card style={{ width: 300, marginTop: 16 }} loading={false} hoverable={true}>
-                          <Link to={`/jobAdvertisement/${jobAdvertisement.id}`}>
+                          <Link to={`/jobadvertisements/details/${jobAdvertisement.id}`} >
                             <Meta
                               avatar={
                                 <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
