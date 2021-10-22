@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import JobAdvertisementService from "../services/jobAdvertisement";
 import { Table, Tag, Spin, Space, } from 'antd';
 import { Link } from "react-router-dom";
-import Leftbar from "../layouts/TopBar";
+import Filter from "../layouts/Filter";
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
   useEffect(() => {
     jobAdvertisementService
@@ -77,9 +77,8 @@ export default function JobAdvertisement() {
   return <>
     {console.log(jobAdvertisements)}
     {
-
       loading
-        ? <div> <Leftbar style={{padding:10}}></Leftbar> <Table columns={columns} dataSource={jobAdvertisements} /> </div>
+        ? <div><Filter style={{ padding: 10 }}></Filter> <Table columns={columns} dataSource={jobAdvertisements} /></div>
         : <Space size="middle">
           <Spin size="large" />
         </Space>
