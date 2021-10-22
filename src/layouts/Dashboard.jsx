@@ -20,19 +20,19 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
+import Candidate from "../pages/candidate/Candidate";
 
 
 export default function Dashboard() {
   const { Content, Footer, Sider } = AntLayout;
   const [collapsed, setCollapsed] = useState(false);
-  var {name} = useParams();
+  var { name } = useParams();
   console.log(name);
 
   const openCloseMenu = () => {
     setCollapsed(!collapsed);
   }
   return (
-
     <AntLayout>
       <Sider style={{
         overflow: 'auto',
@@ -42,8 +42,9 @@ export default function Dashboard() {
       }} trigger={null} collapsible collapsed={collapsed}>
 
         <div style={{ height: '64px' }} >
-          {collapsed ? <MenuUnfoldOutlined className='sider-button sider-collapsed' onClick={openCloseMenu} /> :
-            <MenuFoldOutlined className='sider-button sider-not-collapsed' onClick={openCloseMenu} />
+          {collapsed
+            ? <MenuUnfoldOutlined className='sider-button sider-collapsed' onClick={openCloseMenu} />
+            : <MenuFoldOutlined className='sider-button sider-not-collapsed' onClick={openCloseMenu} />
           }
         </div>
         <div className="logo" >
@@ -66,13 +67,19 @@ export default function Dashboard() {
           <Menu.Item key="3" icon={<UploadOutlined />}>
             <Link to="/employer" className="nav-text">Employer</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<LogoutOutlined />}>
+          <Menu.Item key="4" icon={<UploadOutlined />}>
+            <Link to="/login" className="nav-text">Login</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<LogoutOutlined />}>
             Logout
+          </Menu.Item>
+          <Menu.Item key="6" icon={<LogoutOutlined />}>
+            <Link to="/" className="nav-text">Profile</Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
-      
+
         <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: "100vh" }}>
           <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
             <Route
@@ -107,7 +114,7 @@ export default function Dashboard() {
             ></Route>
             <Route
               exact
-              path="/employer/:id"
+              path="/employer/:employerId"
               component={EmployerInfo}
             ></Route>
             <Route
@@ -119,6 +126,11 @@ export default function Dashboard() {
               exact
               path="/jobadvertisement/add"
               component={JobAdvertisementAdd}
+            ></Route>
+            <Route
+              exact
+              path="/profile"
+              component={Candidate}
             ></Route>
           </div>
         </Content>
