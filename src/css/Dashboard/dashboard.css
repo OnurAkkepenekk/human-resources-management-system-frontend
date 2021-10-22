@@ -9,7 +9,9 @@
 .sider-button{
   color:white !important;
   font-size: 24px;
-  margin-left: 50px;
+  margin-top: 10px;
+  margin-left: -50px;
+  cursor: pointer;
 }
 .ant-layout-sider-children{
   background-color:#222831 !important;
