@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import JobAdvertisementService from "../services/jobAdvertisement";
-import { Table, Tag } from 'antd';
+import { Table, Tag, Spin, Space, } from 'antd';
 import { Link } from "react-router-dom";
+import Leftbar from "../layouts/TopBar";
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
 
+  const [loading, setLoading] = useState(false)
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
   useEffect(() => {
     jobAdvertisementService
@@ -12,15 +14,23 @@ export default function JobAdvertisement() {
       .then((result) => {
         setJobAdvertisements(result.data.data);
         console.log(jobAdvertisements)
+        setLoading(true);
       });
   }, []);
   const columns = [
-
+    {
+      dataIndex: 'employerId',
+      key: 'employerId',
+      render: (text) => (
+        <Tag color='blue' key={text}>
+          <Link to={`/employer/${text}`} >Company Info</Link>
+        </Tag>
+      ),
+    },
     {
       title: 'Company',
       dataIndex: 'companyName',
       key: 'companyName',
-      render: text => <Link to={`/employer/${text}`} >{text}</Link>,
     },
     {
       title: 'City',
@@ -65,6 +75,14 @@ export default function JobAdvertisement() {
     }
   ];
   return <>
-    <Table columns={columns} dataSource={jobAdvertisements} />
+    {console.log(jobAdvertisements)}
+    {
+
+      loading
+        ? <div> <Leftbar style={{padding:10}}></Leftbar> <Table columns={columns} dataSource={jobAdvertisements} /> </div>
+        : <Space size="middle">
+          <Spin size="large" />
+        </Space>
+    }
   </>
 }
