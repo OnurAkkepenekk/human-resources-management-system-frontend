@@ -1,44 +1,24 @@
-import React, { useState, useEffect } from "react";
-import WorkTypeService from "../../../services/workTypeService";
 import { Select } from 'antd';
-export default function WorkTypeFilter() {
-  const [workTypes, setWorkTypes] = useState([]);
-  useEffect(() => {
-    loadWorkTypes();
-  }, []);
-  const loadWorkTypes = async () => {
-    let workTypeService = new WorkTypeService();
-    try {
-      await workTypeService
-        .getWorkTypes()
-        .then((result) => setWorkTypes(result.data.data));
-    } catch (error) { }
-    console.log(workTypes);
-  };
-  const stateOptions = workTypes.map((workType) => ({
-    key: workType.workTypeId,
-    text: workType.workTypeName,
-    value: workType.workTypeId,
-  }));
+
+const WorkTypeFilter = ({ workTypes, setSelecWorkType, ...props }) => {
   const { Option } = Select;
 
   function onChange(value) {
     console.log(`selected ${value}`);
+    setSelecWorkType(value);
   }
-
   function onBlur() {
     console.log('blur');
   }
-
   function onFocus() {
     console.log('focus');
   }
-
   function onSearch(val) {
     console.log('search:', val);
   }
+
   return (
-    <div>
+    <div style={{ display: "inline-block", marginLeft: 16 }}>
       <Select
         showSearch
         style={{ width: 200 }}
@@ -55,7 +35,8 @@ export default function WorkTypeFilter() {
         {workTypes.map(workType => (
           <Option key={workType.workTypeId} value={workType.workTypeId}>{workType.workTypeName}</Option>
         ))}
-      </Select>,
+      </Select>
     </div>
   );
 }
+export default WorkTypeFilter;

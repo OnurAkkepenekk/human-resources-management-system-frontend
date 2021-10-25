@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
-import CityService from "../../../services/cityService";
-import { Select } from 'antd';
-export default function City() {
-  const [cities, setCities] = useState([]);
 
-  useEffect(() => {
-    let cityService = new CityService();
-    cityService.getCities().then((result) => setCities(result.data.data));
-    console.log(cities);
-  }, []);
+import { Select } from 'antd';
+
+const City = ({ cities, setSelectCity, ...props }) => {
+
 
   const { Option } = Select;
 
   function onChange(value) {
     console.log(`selected ${value}`);
+    setSelectCity(value);
   }
 
   function onBlur() {
@@ -28,7 +23,7 @@ export default function City() {
     console.log('search:', val);
   }
   return (
-    <div>
+    <div style={{ display: "inline-block" }}>
       <Select
         showSearch
         style={{ width: 200 }}
@@ -45,7 +40,8 @@ export default function City() {
         {cities.map(city => (
           <Option key={city.id} value={city.cityId}>{city.cityName}</Option>
         ))}
-      </Select>,
+      </Select>
     </div>
   );
 }
+export default City;

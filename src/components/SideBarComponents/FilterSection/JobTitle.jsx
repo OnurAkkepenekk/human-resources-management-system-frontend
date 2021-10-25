@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
-import JobTitleService from "../../../services/jobTitle";
 import { Select } from 'antd';
-export default function Job() {
-  const [jobs, setJobs] = useState([]);
-  useEffect(() => {
-    let jobTitleService = new JobTitleService();
-    jobTitleService.getJobs().then((result) => setJobs(result.data.data));
-  }, []);
+
+const Job = ({ jobs, setSelectPosition, ...props }) => {
   const { Option } = Select;
 
   function onChange(value) {
     console.log(`selected ${value}`);
+    setSelectPosition(value);
   }
 
   function onBlur() {
@@ -25,11 +20,11 @@ export default function Job() {
     console.log('search:', val);
   }
   return (
-    <div>
+    <div style={{ display: "inline-block", marginLeft: 16 }}>
       <Select
         showSearch
         style={{ width: 200 }}
-        placeholder="Select a city"
+        placeholder="Select a position"
         optionFilterProp="children"
         onChange={onChange}
         onFocus={onFocus}
@@ -42,7 +37,9 @@ export default function Job() {
         {jobs.map(job => (
           <Option key={job.id} value={job.id}>{job.jobTitle}</Option>
         ))}
-      </Select>,
+      </Select>
     </div>
   );
 }
+
+export default Job;

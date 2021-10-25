@@ -1,25 +1,13 @@
 import React, { useState, useEffect } from "react";
 import WorkTimeTypeService from "../../../services/workTimeTypeService";
 import { Select } from 'antd';
-export default function WorkTimeFilter() {
-  const [workTimeTypes, setWorkTimeTypes] = useState([]);
-  useEffect(() => {
-    loadWorkTimeTypes();
-  }, []);
-  
-  const loadWorkTimeTypes = async () => {
-    let workTimeTypeService = new WorkTimeTypeService();
-    try {
-      await workTimeTypeService.getWorkTimeTypes().then((result) => {
-        setWorkTimeTypes(result.data.data);
-      });
-    } catch (error) {}
-  };
 
+const WorkTimeFilter = ({ workTimeTypes, setSelectWorkTimeType, ...props }) => {
   const { Option } = Select;
 
   function onChange(value) {
     console.log(`selected ${value}`);
+    setSelectWorkTimeType(value);
   }
 
   function onBlur() {
@@ -34,7 +22,7 @@ export default function WorkTimeFilter() {
     console.log('search:', val);
   }
   return (
-    <div>
+    <div style={{ display: "inline-block", marginLeft: 16 }}>
       <Select
         showSearch
         style={{ width: 200 }}
@@ -51,7 +39,8 @@ export default function WorkTimeFilter() {
         {workTimeTypes.map(workTimeType => (
           <Option key={workTimeType.workTimeTypeId} value={workTimeType.workTimeTypeId}>{workTimeType.workTimeTypeName}</Option>
         ))}
-      </Select>,
+      </Select>
     </div>
   );
 }
+export default WorkTimeFilter;
