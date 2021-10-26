@@ -24,7 +24,7 @@ const Job = ({ jobs, setSelectPosition, ...props }) => {
       <Select
         showSearch
         style={{ width: 200 }}
-        placeholder="Select a position"
+        placeholder="Select position"
         optionFilterProp="children"
         onChange={onChange}
         onFocus={onFocus}

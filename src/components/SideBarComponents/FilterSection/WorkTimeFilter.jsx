@@ -26,7 +26,7 @@ const WorkTimeFilter = ({ workTimeTypes, setSelectWorkTimeType, ...props }) => {
       <Select
         showSearch
         style={{ width: 200 }}
-        placeholder="Select a city"
+        placeholder="Select work time"
         optionFilterProp="children"
         onChange={onChange}
         onFocus={onFocus}
