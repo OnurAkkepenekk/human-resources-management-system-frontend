@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import EmployerService from "../../services/employerService";
 import JobAdvertisementService from "../../services/jobAdvertisement";
-import { Table, Grid, Menu, Icon, Segment } from "semantic-ui-react";
+import { Grid, Icon } from "semantic-ui-react";
 import { Image } from 'antd';
 import { Link } from "react-router-dom";
 import { Tabs } from 'antd';

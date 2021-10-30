@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import WorkTimeTypeService from "../../../services/workTimeTypeService";
 import { Select } from 'antd';
 
 const WorkTimeFilter = ({ workTimeTypes, setSelectWorkTimeType, ...props }) => {

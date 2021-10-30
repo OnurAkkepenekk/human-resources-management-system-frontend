@@ -12,26 +12,26 @@ import { Image } from 'semantic-ui-react'
 import EmployerList from "../pages/EmployerList";
 import Register from "../pages/register/Register";
 import LoginForm from "../pages/login/Login";
-import {
-  LogoutOutlined,
-  UserOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined, UploadOutlined, VideoCameraOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import Candidate from "../pages/candidate/Candidate";
+import Cvs from "../pages/cv/cvMainPage/Cvs";
+import CvDetails from "../pages/cv/cvMainPage/CvDetails";
+import CandidateInfo from "../pages/candidate/CandidateInfo";
 
 
 export default function Dashboard() {
   const { Content, Footer, Sider } = AntLayout;
   const [collapsed, setCollapsed] = useState(false);
+  const [current, setCurrent] = useState("1");
   var { name } = useParams();
   console.log(name);
 
   const openCloseMenu = () => {
     setCollapsed(!collapsed);
   }
+  const handleClick = e => {
+    setCurrent(e.key);
+  };
   return (
     <AntLayout>
       <Sider style={{
@@ -57,7 +57,7 @@ export default function Dashboard() {
             </div>
         }
 
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+        <Menu theme="dark" mode="inline" onClick={handleClick} defaultSelectedKeys={['1']} selectedKeys={[current]}>
           <Menu.Item key="1" icon={<UserOutlined />}>
             <Link to="/" className="nav-text">Main page</Link>
           </Menu.Item>
@@ -74,71 +74,37 @@ export default function Dashboard() {
             Logout
           </Menu.Item>
           <Menu.Item key="6" icon={<LogoutOutlined />}>
-            <Link to="/" className="nav-text">Profile</Link>
+            <Link to="/profile/26" className="nav-text">Profile</Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
-
         <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: "100vh" }}>
           <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-            <Route
-              exact
-              path="/"
-              component={Main}>
-            </Route>
-            <Route
-              exact
-              path="/login"
-              component={LoginForm}>
-            </Route>
-            <Route
-              exact
-              path="/register"
-              component={Register}
-            ></Route>
-            <Route
-              exact
-              path="/jobadvertisement"
-              component={JobAdvertisement}
-            ></Route>
-            <Route
-              exact
-              path="/jobadvertisements/details/:id"
-              component={JobAdvertisementDetails}
-            ></Route>
-            <Route
-              exact
-              path="/employer/jobadvertisements"
-              component={JobAdvertisementDetails}
-            ></Route>
-            <Route
-              exact
-              path="/employer/:employerId"
-              component={EmployerInfo}
-            ></Route>
-            <Route
-              exact
-              path="/employer"
-              component={EmployerList}
-            ></Route>
-            <Route
-              exact
-              path="/jobadvertisement/add"
-              component={JobAdvertisementAdd}
-            ></Route>
-            <Route
-              exact
-              path="/profile"
-              component={Candidate}
-            ></Route>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/register" component={Register} />
+
+            <Route exact path="/jobadvertisement" component={JobAdvertisement} />
+            <Route exact path="/jobadvertisement/add" component={JobAdvertisementAdd} />
+            <Route exact path="/jobadvertisements/details/:id" component={JobAdvertisementDetails} />
+            <Route exact path="/employer/jobadvertisements" component={JobAdvertisementDetails} />
+
+            <Route exact path="/employer/:employerId" component={EmployerInfo} />
+            <Route exact path="/employer" component={EmployerList} />
+
+            <Route exact path="/profile/:id" component={Candidate} />
+            <Route exact path="/candidateDetails/:id" component={CandidateInfo} />
+            
+            <Route exact path="/cvs/:candidateId/cv/:cvId" component={CvDetails} />
+            <Route exact path="/cvs/:userId" component={Cvs} />
           </div>
         </Content>
         <Footer style={{
           position: "relative",
           bottom: 0,
           width: "100%",
-          height: "60px",   /* Height of the footer */
+          height: "60px",
         }}>Onur Akkepenek ©2021 Created by Ant UED</Footer>
       </AntLayout>
     </AntLayout>)
