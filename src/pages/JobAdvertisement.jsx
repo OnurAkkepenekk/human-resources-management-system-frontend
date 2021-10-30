@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import Filter from "../layouts/Filter";
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
+  const [selectCity, setSelectCity] = useState();
+  const [selectPosition, setSelectPosition] = useState();
+  const [workType, setWorkType] = useState();
+  const [workTimeType, setWorkTimeType] = useState();
 
   const [loading, setLoading] = useState(false);
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
@@ -75,10 +79,10 @@ export default function JobAdvertisement() {
     }
   ];
   return <>
-    {console.log(jobAdvertisements)}
+    {console.log(selectCity + "->" + selectPosition + "->" + workType + "->" + workTimeType)}
     {
       loading
-        ? <div><Filter style={{ padding: 10 }}></Filter> <Table columns={columns} dataSource={jobAdvertisements} /></div>
+        ? <div><Filter setSelectCity={setSelectCity} setSelectPosition={setSelectPosition} setWorkType={setWorkType} setWorkTimeType={setWorkTimeType} style={{ padding: 10 }}></Filter> <Table columns={columns} dataSource={jobAdvertisements} /></div>
         : <Space size="middle">
           <Spin size="large" />
         </Space>
