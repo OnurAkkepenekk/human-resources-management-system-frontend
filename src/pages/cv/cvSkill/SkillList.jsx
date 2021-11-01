@@ -29,15 +29,15 @@ const SkillList = () => {
                             <Button style={{ textAlign: 'right' }}>Delete</Button>
                         </Header>
                         <Content>
-                            {skills.map((jobExperience) => (
-                                <Row justify="center" style={{ backgroundColor: "#E9C46A", padding: "1%" }}>
+                            {skills.map((skill) => (
+                                <Row key={skill.id} justify="center" style={{ backgroundColor: "#E9C46A", padding: "1%" }}>
                                     <Col span={24}>
                                         <Row justify="center" gutter={16} style={{ marginTop: "2%" }}>
                                             <Col className="gutter-row" span={12}>
                                                 <span style={{ textAlign: "right", marginTop: "1%", fontWeight: "bold" }}>Skill Name :</span>
                                             </Col>
                                             <Col className="gutter-row" span={6}>
-                                                <p style={{ textAlign: "left", marginTop: "1%" }}>{jobExperience.skillName}</p>
+                                                <p style={{ textAlign: "left", marginTop: "1%" }}>{skill.skillName}</p>
                                             </Col>
                                         </Row>
                                     </Col>
