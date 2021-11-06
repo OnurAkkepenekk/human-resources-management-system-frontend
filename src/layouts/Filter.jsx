@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Icon, Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
+import { Button } from 'antd';
 import City from "../components/SideBarComponents/FilterSection/City";
 import Job from "../components/SideBarComponents/FilterSection/JobTitle";
 import WorkTimeFilter from "../components/SideBarComponents/FilterSection/WorkTimeFilter";
@@ -8,8 +9,9 @@ import CityService from "../services/cityService";
 import JobTitleService from "../services/jobTitle";
 import WorkTimeTypeService from "../services/workTimeTypeService";
 import WorkTypeService from "../services/workTypeService";
+import { SearchOutlined } from '@ant-design/icons'
 
-const Filter = ({ setSelectCity, setSelectPosition, setWorkType, setWorkTimeType, ...props }) => {
+const Filter = ({ setSearch, setSelectCity, setSelectPosition, setWorkType, setWorkTimeType, ...props }) => {
   const [cities, setCities] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [workTimeTypes, setWorkTimeTypes] = useState([]);
@@ -31,6 +33,9 @@ const Filter = ({ setSelectCity, setSelectPosition, setWorkType, setWorkTimeType
     jobTitleService.getJobs().then((result) => setJobs(result.data.data));
   }, []);
 
+  let handleSubmit = () => {
+    setSearch(false);
+  }
   const loadWorkTypes = async () => {
     let workTypeService = new WorkTypeService();
     try {
@@ -57,7 +62,10 @@ const Filter = ({ setSelectCity, setSelectPosition, setWorkType, setWorkTimeType
         <Job jobs={jobs} setSelectPosition={setSelectPosition} />
         <WorkTimeFilter workTimeTypes={workTimeTypes} setSelectWorkTimeType={setWorkTimeType} />
         <WorkTypeFilter workTypes={workTypes} setSelecWorkType={setWorkType} />
-        <Button style={{ marginLeft: 16, height: 50 }}><Icon name="search" inverted circular link />Search</Button>
+        <Button style={{ margin: "0 8px" }} onClick={handleSubmit}>
+          <SearchOutlined />
+          Search
+        </Button>
       </Segment>
     </Segment.Group>
   );
