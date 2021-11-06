@@ -16,4 +16,8 @@ export default class EmployerService {
   addEmployer(employer) {
     return axios.post("http://localhost:8080/api/employers/add", employer);
   }
+
+  updateEmployer(employer) {
+    return axios.put("http://localhost:8080/api/employers/update", employer);
+  }
 }
