@@ -1,23 +1,10 @@
-import React, { useState } from "react";
-import JobAdvertisement from "../pages/JobAdvertisement";
-import { Route } from "react-router";
-import JobAdvertisementAdd from "../pages/jobAdvertisement/JobAdvertisementAdd";
-import JobAdvertisementDetails from "../pages/jobAdvertisement/JobAdvertisementDetails";
-import EmployerInfo from "../pages/employer/EmployerInfo";
+import { useState } from "react";
 import { Layout as AntLayout, Menu } from 'antd';
-import Main from '../pages/main/Main'
 import { Link, useParams } from "react-router-dom";
 import "../css/Dashboard/dashboard.css"
 import { Image } from 'semantic-ui-react'
-import EmployerList from "../pages/EmployerList";
-import Register from "../pages/register/Register";
-import LoginForm from "../pages/login/Login";
 import { LogoutOutlined, UserOutlined, UploadOutlined, VideoCameraOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import Candidate from "../pages/candidate/Candidate";
-import Cvs from "../pages/cv/cvMainPage/Cvs";
-import CvDetails from "../pages/cv/cvMainPage/CvDetails";
-import CandidateInfo from "../pages/candidate/CandidateInfo";
-
+import RouterMainComponent from "../components/RouterMainComponent/RouterMainComponent";
 
 export default function Dashboard() {
   const { Content, Footer, Sider } = AntLayout;
@@ -43,17 +30,17 @@ export default function Dashboard() {
 
         <div style={{ height: '64px' }} >
           {collapsed
-            ? <MenuUnfoldOutlined className='sider-button sider-collapsed' onClick={openCloseMenu} />
+            ? <MenuUnfoldOutlined className='sider-button2 sider-collapsed' onClick={openCloseMenu} />
             : <MenuFoldOutlined className='sider-button sider-not-collapsed' onClick={openCloseMenu} />
           }
         </div>
         <div className="logo" >
-          <Image avatar spaced="right" src="https://avatars.githubusercontent.com/u/61885344?v=4"></Image>
+          <Image spaced="right" src="https://avatars.githubusercontent.com/u/61885344?v=4"></Image>
         </div>
         {
           collapsed ? null :
-            <div className="sider-header">
-              <h2>HRMS</h2>
+            <div className="sider-header-hrms">
+              <h2 className="hrms">HRMS</h2>
             </div>
         }
 
@@ -80,25 +67,7 @@ export default function Dashboard() {
       </Sider>
       <AntLayout className="site-layout" style={{ marginLeft: 200 }}>
         <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: "100vh" }}>
-          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-            <Route exact path="/" component={Main} />
-            <Route exact path="/login" component={LoginForm} />
-            <Route exact path="/register" component={Register} />
-
-            <Route exact path="/jobadvertisement" component={JobAdvertisement} />
-            <Route exact path="/jobadvertisement/add" component={JobAdvertisementAdd} />
-            <Route exact path="/jobadvertisements/details/:id" component={JobAdvertisementDetails} />
-            <Route exact path="/employer/jobadvertisements" component={JobAdvertisementDetails} />
-
-            <Route exact path="/employer/:employerId" component={EmployerInfo} />
-            <Route exact path="/employer" component={EmployerList} />
-
-            <Route exact path="/profile/:id" component={Candidate} />
-            <Route exact path="/candidateDetails/:id" component={CandidateInfo} />
-            
-            <Route exact path="/cvs/:candidateId/cv/:cvId" component={CvDetails} />
-            <Route exact path="/cvs/:userId" component={Cvs} />
-          </div>
+          <RouterMainComponent />
         </Content>
         <Footer style={{
           position: "relative",
