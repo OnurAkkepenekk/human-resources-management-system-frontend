@@ -6,27 +6,34 @@
 .site-layout .site-layout-background {
   background: #fff;
 }
-.sider-button{
-  color:white !important;
+.sider-button {
+  color: white !important;
   font-size: 24px;
   margin-top: 10px;
-  margin-left: -50px;
+  margin-left: -95px;
   cursor: pointer;
 }
-.ant-layout-sider-children{
-  background-color:#222831 !important;
-
+.sider-button2 {
+  color: white !important;
+  font-size: 24px;
+  margin-top: 10px;
+  cursor: pointer;
 }
-.ant-menu.ant-menu-dark{
+.ant-layout-sider-children {
+  background-color: #222831 !important;
+}
+.ant-menu.ant-menu-dark {
   background-color: #222831 !important;
 }
 .sider-header {
   margin-top: 100px;
   margin-bottom: 10px;
- 
 }
 .sider-header h2{
   color: #fff;
+}
+.sider-header-hrms{
+  margin-top: 20px;
 }
 .wrapper {
   min-height: 100%;
@@ -34,6 +41,13 @@
   height: 100%;
   margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
 }
+
 .footer, .push {
   height: 142px; /* .push must be the same height as .footer */
+}
+.hrms {
+  font-size: 2.5rem;
+  font-family: 'Roboto', sans-serif;
+  font-style: bold;
+  color: #fff;
 }
