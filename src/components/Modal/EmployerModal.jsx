@@ -189,7 +189,8 @@ const EmployerModal = ({ employerId, employer, setVisible, visible, ...props }) 
                                 </Button>
                             </Form.Item>
                         </Form>
-                    </> : <ResultInfo status={status} title={title} subTitle={subTitle}></ResultInfo>
+                    </>
+                    : <ResultInfo status={status} title={title} subTitle={subTitle}></ResultInfo>
                 }
             </Modal>
         </>
