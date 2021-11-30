@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JobAdvertisementService from "../../services/jobAdvertisement";
-import { Layout, Card, Table, Tag, Space, Button, Descriptions } from 'antd';
+import { Layout, Card, Table, Button } from 'antd';
 import { Statistic, Row, Col } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, CheckCircleTwoTone, StopOutlined, SearchOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import "../../css/jobAdvertisement/jobAdvertisementDetails.css"
@@ -23,19 +23,17 @@ export default function JobAdvertisementDetails() {
       .then((result) => setAdvertisementDetail(result.data.data));
   }, []);
 
-
-
   return (
     <div>
       <Layout>
         <Header style={{ background: "#EDEEF2" }}>
-          {advertisementDetail.active === "true" ? <Button style={{ right: "-775px" }} type="primary" danger>
+          {advertisementDetail.active === true ? <Button style={{ right: "-775px" }} type="primary" danger>
             Apply
           </Button> : <Button disabled style={{ right: "-775px" }} type="primary" danger>
             Apply
           </Button>}
 
-          {advertisementDetail.active === "true" ? <CheckCircleTwoTone style={{ fontSize: '36px', marginRight: 100 }} twoToneColor="#52c41a" />
+          {advertisementDetail.active === true ? <CheckCircleTwoTone style={{ fontSize: '36px', marginRight: 100 }} twoToneColor="#52c41a" />
             : <StopOutlined style={{ fontSize: '36px', color: "red", marginRight: 100 }} />}
         </Header>
 
@@ -71,7 +69,7 @@ export default function JobAdvertisementDetails() {
                   </Card>
                 </Col>
               </Row>
-            </div>,
+            </div>
             <hr />
             <Row gutter={16}>
               <Col span={7}>

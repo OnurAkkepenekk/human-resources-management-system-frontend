@@ -1,5 +1,4 @@
-
-import { Result, Button } from 'antd';
+import { Result} from 'antd';
 
 const ResultInfo = ({status,title,subTitle}) => {
     return (
