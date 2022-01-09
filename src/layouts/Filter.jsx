@@ -11,7 +11,7 @@ import WorkTimeTypeService from "../services/workTimeTypeService";
 import WorkTypeService from "../services/workTypeService";
 import { SearchOutlined } from '@ant-design/icons'
 
-const Filter = ({ setSearch, setSelectCity, setSelectPosition, setWorkType, setWorkTimeType, ...props }) => {
+const Filter = ({ setSearch, setSelectCity, setSelectPosition, setWorkType, setWorkTimeType,getJobAdvertisementWithFilter, ...props }) => {
   const [cities, setCities] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [workTimeTypes, setWorkTimeTypes] = useState([]);
@@ -34,7 +34,8 @@ const Filter = ({ setSearch, setSelectCity, setSelectPosition, setWorkType, setW
   }, []);
 
   let handleSubmit = () => {
-    setSearch(false);
+    setSearch(true);
+    getJobAdvertisementWithFilter();
   }
   const loadWorkTypes = async () => {
     let workTypeService = new WorkTypeService();

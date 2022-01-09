@@ -5,22 +5,42 @@ import { Link } from "react-router-dom";
 import Filter from "../layouts/Filter";
 export default function JobAdvertisement() {
   let jobAdvertisementService = new JobAdvertisementService();
+
   const [selectCity, setSelectCity] = useState();
   const [selectPosition, setSelectPosition] = useState();
-  const [workType, setWorkType] = useState();
-  const [workTimeType, setWorkTimeType] = useState();
-
+  const [selectWorkType, setWorkType] = useState();
+  const [selectWorkTimeType, setWorkTimeType] = useState();
+  const [search, setSearch] = useState(false)
   const [loading, setLoading] = useState(false);
   const [jobAdvertisements, setJobAdvertisements] = useState([]);
+
   useEffect(() => {
-    jobAdvertisementService
-      .getJobAdvertisement()
-      .then((result) => {
-        setJobAdvertisements(result.data.data);
-        console.log(jobAdvertisements)
-        setLoading(true);
-      });
+    getJobAdvertisementWithFilter();
   }, []);
+  const getJobAdvertisementWithFilter = () => {
+
+    if (selectCity !== undefined && selectPosition !== undefined && selectWorkTimeType !== undefined && selectWorkType !== undefined && search === true) {
+      console.log("Search true")
+      console.log(parseInt(selectCity))
+      console.log(selectPosition)
+      console.log(selectWorkTimeType)
+      console.log(selectWorkType)
+
+      jobAdvertisementService.findByFilter(parseInt(selectCity), selectPosition, selectWorkType, selectWorkTimeType).then(result => {
+        setJobAdvertisements(result.data.data);
+      })
+    }
+    else {
+      jobAdvertisementService
+        .getJobAdvertisement()
+        .then((result) => {
+          setJobAdvertisements(result.data.data);
+          console.log(jobAdvertisements)
+          setLoading(true);
+        });
+    }
+
+  }
   const columns = [
     {
       dataIndex: 'employerId',
@@ -66,8 +86,8 @@ export default function JobAdvertisement() {
       dataIndex: 'active',
       key: 'active',
       render: (active) => (
-        <Tag color={active === "true" ? 'green' : 'red'} key={active}>
-          {active}
+        <Tag color={active === true ? 'green' : 'red'} key={active}>
+          {active.toString()}
         </Tag>
       ),
     },
@@ -79,11 +99,16 @@ export default function JobAdvertisement() {
     }
   ];
   return <>
-    {console.log(selectCity + "->" + selectPosition + "->" + workType + "->" + workTimeType)}
+    {console.log(selectCity + "->" + selectPosition + "->" + selectWorkType + "->" + selectWorkTimeType)}
     {
       loading
-        ? <div><Filter setSelectCity={setSelectCity} setSelectPosition={setSelectPosition} setWorkType={setWorkType} setWorkTimeType={setWorkTimeType} style={{ padding: 10 }}></Filter> <Table columns={columns} dataSource={jobAdvertisements} /></div>
-        : <Space size="middle">
+        ?
+        <div>
+          <Filter getJobAdvertisementWithFilter={getJobAdvertisementWithFilter} setSearch={setSearch} setSelectCity={setSelectCity} setSelectPosition={setSelectPosition} setWorkType={setWorkType} setWorkTimeType={setWorkTimeType} style={{ padding: 10 }}></Filter>
+          <Table columns={columns} dataSource={jobAdvertisements} />
+        </div>
+        :
+        <Space size="middle">
           <Spin size="large" />
         </Space>
     }
