@@ -18,9 +18,7 @@ const LinkList = () => {
         })
     }, [])
     return (
-        <div>
-            LinkList
-            {console.log(links)}
+        <div>   
             <div>
                 <Divider orientation="left">Links Informations</Divider>
                 {loading ?
