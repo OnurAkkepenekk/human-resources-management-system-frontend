@@ -5,7 +5,9 @@ export default class JobAdvertisementService {
     return axios.get("http://localhost:8080/api/jobadvertisements/getAll");
   }
   getJobAdvertisementById(id) {
-    return axios.get("http://localhost:8080/api/jobadvertisements/details/id?id=" + id);
+    return axios.get(
+      "http://localhost:8080/api/jobadvertisements/details/id?id=" + id
+    );
   }
   add(jobAdvert) {
     return axios.post(
@@ -30,6 +32,18 @@ export default class JobAdvertisementService {
     return axios.get(
       "http://localhost:8080/api/jobadvertisements/finfByIsActiveTrueAndEmployer_Id?employer_Id=" +
         employerId
+    );
+  }
+  findByFilter(cityId, jobId, workTimeTypeId, workTypeId) {
+    return axios.get(
+      "http://localhost:8080/api/jobadvertisements/list/search?cityId=" +
+        cityId +
+        "&jobId=" +
+        jobId +
+        "&orderByField=id&orderDirection=asc&workTimeTypeId=" +
+        workTimeTypeId +
+        "&workTypeId=" +
+        workTypeId
     );
   }
 }
