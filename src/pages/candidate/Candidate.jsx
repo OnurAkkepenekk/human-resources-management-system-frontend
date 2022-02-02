@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CandidateService from "../../services/candidateService";
 import Cvs from "../cv/cvMainPage/Cvs";
+import CandidateEdit from "./CandidateEdit";
+import CandidateInfo from "./CandidateInfo";
 
 
 export default function Candidate() {
@@ -13,8 +15,11 @@ export default function Candidate() {
     );
   }, []);
 
-  return (<div>
-    <Cvs></Cvs>
-    {console.log(candidates)}
-  </div>);
+  return (
+    <div>
+      <CandidateEdit />
+      <Cvs></Cvs>
+      {console.log(candidates)}
+    </div>
+  );
 }
