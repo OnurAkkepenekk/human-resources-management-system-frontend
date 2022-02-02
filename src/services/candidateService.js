@@ -10,4 +10,7 @@ export default class CandidateService {
   add(candidate) {
     return axios.post("http://localhost:8080/api/candidate/add", candidate);
   }
+  update(candidate){
+    return axios.put("http://localhost:8080/api/candidate/update", candidate)
+  }
 }
