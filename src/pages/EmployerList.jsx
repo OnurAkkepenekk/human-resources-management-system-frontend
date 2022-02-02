@@ -19,6 +19,7 @@ export default function EmployerList() {
     <>
       {loading ?
         <div style={{ background: "#ECECEC", padding: "30px" }}>
+          <p>Companies</p>
           <Row gutter={16}>
             {employers.map((employer) => (
               <Col span={8} key={employer.id} onClick={() => console.log(employer)}>
