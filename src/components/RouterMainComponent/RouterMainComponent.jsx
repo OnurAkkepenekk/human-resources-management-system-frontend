@@ -29,11 +29,12 @@ const RouterMainComponent = () => {
                 <Route exact path="/employer/:employerId" component={EmployerInfo} />
                 <Route exact path="/employer" component={EmployerList} />
 
+                <Route exact path="/cvs/:candidateId/cv/:cvId" component={CvDetails} />
+                
                 <Route exact path="/profile/:id" component={Candidate} />
                 <Route exact path="/candidateDetails/:id" component={CandidateInfo} />
 
-                <Route exact path="/cvs/:candidateId/cv/:cvId" component={CvDetails} />
-                <Route exact path="/cvs/:userId" component={Cvs} />
+                
             </div>
         </div>
     )
