@@ -29,10 +29,7 @@ const CandidateInfo = () => {
         }
     };
 
-
     return (
-
-
         <div>
             <Divider orientation="left">Candidate Informations</Divider>
             <Layout >
@@ -99,8 +96,6 @@ const CandidateInfo = () => {
                 </Content>
             </Layout>
         </div>
-
-
     )
 }
 
