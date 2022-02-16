@@ -23,14 +23,13 @@ const config = {
         },
     ],
 };
-const openNotification = (message, description) => {
-    notification.open({
-        message: message,
-        description: description,
-        icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+const openNotification = (placement, message, status) => {
+    notification[status]({
+        message: `${status.toUpperCase()}`,
+        description: message,
+        placement,
     });
 };
-
 const CandidateRegister = () => {
 
     const onFinish = (fieldsValue) => {
@@ -40,10 +39,9 @@ const CandidateRegister = () => {
         // console.log(moment(fieldsValue.user.birthDay).format("YYYY-MM-DD"));
         candidateService.add(fieldsValue.user).then((response) => {
             console.log(response);
-            openNotification(response.data.message);
+            openNotification("bottomRight", response.data.message, "success");
         }).catch(error => {
-            // openNotification(error.data.message);
-            console.log(error);
+            openNotification("bottomRight", error.response.data.message, "error");
         })
     };
 
@@ -53,8 +51,6 @@ const CandidateRegister = () => {
             <h4>First, create your hrms.com account. Have an account?<a href='/login' style={{ textDecoration: 'underline' }}> Log in</a></h4>
 
             <Form {...layout} name="register" labelCol={{ span: 5, }} wrapperCol={{ span: 15, }} layout="horizontal" size="large" onFinish={onFinish} style={{ marginTop: 50 }}>
-
-
                 <Form.Item
                     name={['user', 'firstName']}
                     label="First Name"
@@ -161,9 +157,6 @@ const CandidateRegister = () => {
                     </Button>
                 </Form.Item>
             </Form>
-
-
-
         </>
     )
 }

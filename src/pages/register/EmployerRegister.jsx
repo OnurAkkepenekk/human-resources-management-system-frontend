@@ -1,4 +1,4 @@
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, notification } from 'antd';
 import EmployerService from '../../services/employerService';
 
 const { Option } = Select;
@@ -11,7 +11,6 @@ const layout = {
         span: 16,
     },
 };
-/* eslint-disable no-template-curly-in-string */
 
 const validateMessages = {
     required: '${label} is required!',
@@ -22,8 +21,7 @@ const validateMessages = {
     number: {
         range: '${label} must be between ${min} and ${max}',
     },
-};
-/* eslint-enable no-template-curly-in-string */
+}; 
 
 const EmployerRegister = () => {
     let employerService = new EmployerService();
@@ -35,17 +33,22 @@ const EmployerRegister = () => {
             </Select>
         </Form.Item>
     );
-
+    const openNotification = (placement, message, status) => {
+        notification[status]({
+            message: `${status.toUpperCase()}`,
+            description: message,
+            placement,
+        });
+    };
     const onFinish = (values) => {
         values.user.phoneNumber = values.prefix + values.user.phoneNumber
         console.log(values);
         let employer = values.user;
         console.log(employer);
         employerService.addEmployer(values.user).then(response => {
-            console.log(response);
-
+            openNotification("bottomRight", response.data.message, "success");
         }).catch(error => {
-            console.log(error)
+            openNotification("bottomRight", error.response.data.message, "error");
         })
     };
     return (
