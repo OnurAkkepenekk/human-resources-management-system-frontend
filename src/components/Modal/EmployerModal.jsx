@@ -173,7 +173,7 @@ const EmployerModal = ({ employerId, employer, setVisible, visible, ...props }) 
                                     },
                                 ]}
                             >
-                                <Input.TextArea showCount maxLength={100} />
+                                <Input.TextArea showCount maxLength={500} />
                             </Form.Item>
                             <Form.Item label="Active" name="activated" valuePropName="checked" rules={[
                                 {
