@@ -18,9 +18,20 @@ export default function JobAdvertisementDetails() {
 
   useEffect(() => {
     let jobAdvertisementService = new JobAdvertisementService();
+    jobAdvertisementService.increaseClickCount(id).then(response => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+    });
     jobAdvertisementService
       .getJobAdvertisementById(id)
-      .then((result) => setAdvertisementDetail(result.data.data));
+      .then((result) => {
+        setAdvertisementDetail(result.data.data);
+        console.log(result.data.data)
+        console.log(result.data.data.clickCount);
+      }).catch(error => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -76,7 +87,7 @@ export default function JobAdvertisementDetails() {
                 <Statistic title="Day" value={5 + " day"} prefix={<ClockCircleOutlined />} />
               </Col>
               <Col span={10}>
-                <Statistic title="Viewing" value={1128} prefix={<SearchOutlined />} />
+                <Statistic title="Viewing" value={advertisementDetail.clickCount} prefix={<SearchOutlined />} />
               </Col>
               <Col span={7}>
                 <Statistic title="Application" value={93} prefix={<CheckOutlined />} />

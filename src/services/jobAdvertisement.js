@@ -15,6 +15,12 @@ export default class JobAdvertisementService {
       jobAdvert
     );
   }
+  increaseClickCount(id) {
+    return axios.post(
+      "http://localhost:8080/api/jobadvertisements/increaseClickCount?id=" + id
+    );
+  }
+
   changeJobAdvertisementStatus(advertisementId, employerId) {
     return axios.get(
       "http://localhost:8080/api/jobadvertisements/changeStatus?advertisementId=" +
